@@ -1,0 +1,50 @@
+// This is your updated Prisma schema file for PostgreSQL
+
+generator client {
+  provider = "prisma-client-js" // Changed from "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql" // Changed from "postgres"
+}
+
+model User {
+  id         String   @id @default(cuid())
+  name       String
+  email      String   @unique
+  password   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Task {
+  id           String    @id @default(cuid())
+  user_id      String    @db.VarChar(36)
+  project_id   String?
+  name         String
+  description  String?   @db.Text
+  due_date     DateTime? @db.Date
+  completed_on DateTime? // Removed empty @db.DateTime() as it defaults to timestamp(3)
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  project      Project?  @relation(fields: [project_id], references: [id])
+
+  @@index([user_id])
+  @@map("tasks")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  user_id     String   @db.VarChar(36)
+  name        String
+  description String?  @db.Text
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  tasks       Task[]
+
+  @@index([user_id])
+  @@map("projects")
+}
