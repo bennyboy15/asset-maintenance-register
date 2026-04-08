@@ -129,27 +129,6 @@ exports.Prisma.UserScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
-exports.Prisma.TaskScalarFieldEnum = {
-  id: 'id',
-  user_id: 'user_id',
-  project_id: 'project_id',
-  name: 'name',
-  description: 'description',
-  due_date: 'due_date',
-  completed_on: 'completed_on',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.ProjectScalarFieldEnum = {
-  id: 'id',
-  user_id: 'user_id',
-  name: 'name',
-  description: 'description',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -160,16 +139,9 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 
 exports.Prisma.ModelName = {
-  User: 'User',
-  Task: 'Task',
-  Project: 'Project'
+  User: 'User'
 };
 
 /**

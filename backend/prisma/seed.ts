@@ -12,33 +12,14 @@ const userIds = [
 ];
 
 async function main() {
-    for (const userId of userIds) {
-        const createdProject = await prisma.project.create({
-            data: {
-                user_id: userId,
-                name: capitalize(faker.word.noun()),
-            },
-        });
-
+    for(let i = 0; i < 3; i++) {
         await prisma.user.create({
             data: {
                 name: faker.person.fullName(),
                 email: faker.internet.email(),
-                password: faker.internet.password(),
-            },
-        })
-
-        for (let i = 1; i <= 2; i++) {
-            await prisma.task.create({
-                data: {
-                    user_id: userId,
-                    project_id: i % 2 === 0 ? createdProject.id : null,
-                    name: `${capitalize(faker.word.verb())} ${faker.word.noun()}`,
-                    description: faker.lorem.sentence(),
-                    due_date: faker.date.future(),
-                },
-            });
-        }
+                password: faker.internet.password()
+            }
+        });
     }
 }
 
