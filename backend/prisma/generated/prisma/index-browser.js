@@ -129,6 +129,35 @@ exports.Prisma.UserScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.SupplierScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.AssetGroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.AssetScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  frequency: 'frequency',
+  lastService: 'lastService',
+  nextService: 'nextService',
+  isRetired: 'isRetired',
+  retiredOn: 'retiredOn',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  responsibleUserId: 'responsibleUserId',
+  supplierId: 'supplierId',
+  assetGroupId: 'assetGroupId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -141,7 +170,10 @@ exports.Prisma.QueryMode = {
 
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Supplier: 'Supplier',
+  AssetGroup: 'AssetGroup',
+  Asset: 'Asset'
 };
 
 /**

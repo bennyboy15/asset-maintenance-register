@@ -16,6 +16,49 @@ model User {
   password   String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  assets     Asset[]
 
   @@map("users")
+}
+
+model Supplier {
+  id         String   @id @default(cuid())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  assets     Asset[]
+
+  @@map("suppliers")
+}
+
+model AssetGroup {
+  id         String   @id @default(cuid())
+  name       String
+  assets     Asset[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("assetGroup")
+}
+
+model Asset {
+  id                String     @id @default(cuid())
+  name              String
+  frequency         Int
+  lastService       DateTime   @db.Date
+  nextService       DateTime   @db.Date
+  isRetired         Boolean
+  retiredOn         DateTime   @db.Date
+  created_at        DateTime   @default(now())
+  updated_at        DateTime   @updatedAt
+  // 1. The Relation Field (used in TypeScript)
+  responsibleUser   User       @relation(fields: [responsibleUserId], references: [id])
+  // 2. The Foreign Key Field (used in the Database)
+  responsibleUserId String
+  supplier          Supplier   @relation(fields: [supplierId], references: [id])
+  supplierId        String
+  assetGroup        AssetGroup @relation(fields: [assetGroupId], references: [id])
+  assetGroupId      String
+
+  @@map("assets")
 }
