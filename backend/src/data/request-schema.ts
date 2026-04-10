@@ -46,3 +46,10 @@ export const createSupplierSchema = Joi.object({
 export const updateSupplierSchema = Joi.object({
   name: nameFieldSchema.optional()
 });
+
+export const createAssetGroupSchema = Joi.object({
+  name: nameFieldSchema.required()
+});
+export const updateAssetGroupSchema = Joi.object({
+  name: nameFieldSchema.optional()
+});
