@@ -5,8 +5,9 @@ import type { AssetType } from '../types/types'
 
 export function useAsset(id: string, options = {}) {
     return useQuery({
-        queryKey: ['asset'],
+        queryKey: ['asset', id],
         queryFn: () => getAsset(id),
+        enabled: !!id,
         ...options
     })
 }

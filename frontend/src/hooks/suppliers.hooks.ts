@@ -5,8 +5,9 @@ import type { SupplierType } from '../types/types'
 
 export function useSupplier(id: string, options = {}) {
     return useQuery({
-        queryKey: ['supplier'],
+        queryKey: ['supplier', id],
         queryFn: () => getSupplier(id),
+        enabled: !!id,
         ...options
     })
 }
