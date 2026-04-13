@@ -1,0 +1,27 @@
+{
+  "name": "asset-maintenance-register",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "frontend": "npm run dev --prefix frontend",
+    "backend": "npm run dev --prefix backend",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennyboy15/asset-maintenance-register.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/bennyboy15/asset-maintenance-register/issues"
+  },
+  "homepage": "https://github.com/bennyboy15/asset-maintenance-register#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
