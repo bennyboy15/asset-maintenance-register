@@ -1,5 +1,6 @@
 export type AssetType = {
-    name: string
+    id: string;
+    name: string;
 }
 
 export type SupplierType = {

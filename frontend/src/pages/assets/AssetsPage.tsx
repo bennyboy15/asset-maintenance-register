@@ -14,8 +14,8 @@ function AssetsPage() {
     return (
         <>
             <div>AssetsPage</div>
-            {assets.map((asset: AssetType) => (
-                <div>{asset.name}</div>
+            {assets?.map((asset: AssetType) => (
+                <div key={asset.id}>{asset.name}</div>
             ))}
         </>
     )

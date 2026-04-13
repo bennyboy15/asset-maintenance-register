@@ -3,4 +3,7 @@
 GET http://localhost:5000/health HTTP/1.1
 
 ### GET users
-GET http://localhost:5000/v1/users HTTP/1.1
+GET http://localhost:5000/api/v1/users HTTP/1.1
+
+### GET assets
+GET http://localhost:5000/api/v1/assets HTTP/1.1
