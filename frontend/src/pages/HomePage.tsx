@@ -6,7 +6,10 @@ function HomePage() {
         <>
             <div>HomePage</div>
             <button onClick={() => toast.error("TEST")}>TOAST ME</button>
-            <Link to="/suppliers">SUPPLIERS PAGE</Link>
+            <div className="flex flex-col gap-2">
+                <Link to="/assets">ASSETS PAGE</Link>
+                <Link to="/suppliers">SUPPLIERS PAGE</Link>
+            </div>
         </>
     )
 }

@@ -1,5 +1,5 @@
-import { useAssets } from "../hooks/assets.hooks"
-import type { AssetType } from "../types/types";
+import { useAssets } from "../../hooks/assets.hooks"
+import type { AssetType } from "../../types/types";
 
 function AssetsPage() {
     const { data: assets, isLoading, error } = useAssets({
