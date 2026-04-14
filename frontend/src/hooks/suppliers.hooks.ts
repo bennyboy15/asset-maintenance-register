@@ -24,7 +24,7 @@ export function useCreateSupplier() {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: createSupplier,
+        mutationFn: (data: SupplierType) => createSupplier(data),
 
         onSuccess: () => {
             toast.success('Supplier created')

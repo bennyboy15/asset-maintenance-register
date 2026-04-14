@@ -53,3 +53,40 @@ export const createAssetGroupSchema = Joi.object({
 export const updateAssetGroupSchema = Joi.object({
   name: nameFieldSchema.optional()
 });
+
+const assetFields = {
+  name: Joi.string().min(3).max(100).messages({
+    'string.empty': 'Asset name is required',
+    'string.min': 'Asset name should be at least 3 characters long',
+  }),
+  frequency: Joi.number().integer().min(1).messages({
+    'number.base': 'Frequency must be a number (days)',
+  }),
+  lastService: Joi.date().iso(),
+  nextService: Joi.date().iso().min(Joi.ref('lastService')).messages({
+    'date.min': 'Next service must be after the last service date',
+  }),
+  isRetired: Joi.boolean().default(false),
+  retiredOn: Joi.date().iso().when('isRetired', {
+    is: true,
+    then: Joi.required(),
+    otherwise: Joi.optional().allow(null),
+  }),
+  responsibleUserId: Joi.string().messages({ 'any.required': 'A responsible user must be assigned' }),
+  supplierId: Joi.string(),
+  assetGroupId: Joi.string(),
+};
+
+
+export const createAssetSchema = Joi.object({
+  ...assetFields,
+  name: assetFields.name.required(),
+  frequency: assetFields.frequency.required(),
+  lastService: assetFields.lastService.required(),
+  nextService: assetFields.nextService.required(),
+  responsibleUserId: assetFields.responsibleUserId.required(),
+  supplierId: assetFields.supplierId.required(),
+  assetGroupId: assetFields.assetGroupId.required(),
+});
+
+export const updateAssetSchema = Joi.object(assetFields).min(1);

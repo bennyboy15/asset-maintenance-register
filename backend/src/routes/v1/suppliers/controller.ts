@@ -4,7 +4,7 @@ import { prisma } from "../../../prisma-client";
 export async function getSuppliers(req: Request, res: Response, next: NextFunction) {
     try {
         const suppliers = await prisma.supplier.findMany({});
-        return res.status(200).json({ suppliers });
+        return res.status(200).json(suppliers);
     } catch (error) {
         next(error);
     }
@@ -15,7 +15,7 @@ export async function getSupplier(req: Request, res: Response, next: NextFunctio
         const supplier = await prisma.supplier.findUnique({
             where: { id: req.params.id as string }
         });
-        return res.status(200).json({ supplier });
+        return res.status(200).json(supplier);
     } catch (error) {
         next(error);
     }
@@ -28,7 +28,7 @@ export async function createSupplier(req: Request, res: Response, next: NextFunc
                 ...req.body
             }
         });
-        return res.status(201).json({ supplier });
+        return res.status(201).json(supplier);
     } catch (error) {
         next(error);
     }
@@ -44,7 +44,7 @@ export async function updateSupplier(req: Request, res: Response, next: NextFunc
                 ...req.body
             }
         });
-        return res.status(200).json({ supplier });
+        return res.status(200).json(supplier);
     } catch (error) {
         next(error);
     }
