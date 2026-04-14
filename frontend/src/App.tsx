@@ -5,22 +5,30 @@ import SuppliersPage from './pages/SuppliersPage'
 import AssetsPage from './pages/assets/AssetsPage'
 import AssetDetailsPage from './pages/assets/AssetDetailsPage'
 import CreateAssetPage from './pages/assets/CreateAssetPage'
+import Navbar from './components/Navbar'
+import MyListPage from './pages/MyListPage'
+import HistoryPage from './pages/HistoryPage'
 
 function App() {
   return (
-    <Routes>
-      {/* Home Route */}
-      <Route path="/" element={<HomePage />} />
-      <Route path="/suppliers" element={<SuppliersPage />} />
+    <>
+      <Navbar />
+      <div className='p-4'>
+        <Routes>
+          <Route index element={<HomePage />} />
 
-      {/* Asset Routes */}
-      <Route path="/assets">
-        <Route index element={<AssetsPage />} />
-        <Route path="new" element={<CreateAssetPage />} />
-        <Route path=":id" element={<AssetDetailsPage />} />
-      </Route>
+          {/* Asset Routes */}
+          <Route path="/assets">
+            <Route index element={<AssetsPage />} />
+            <Route path="new" element={<CreateAssetPage />} />
+            <Route path=":id" element={<AssetDetailsPage />} />
+          </Route>
 
-    </Routes>
+          <Route path="/my-list" element={<MyListPage />} />
+          <Route path="/history" element={<HistoryPage />} />
+        </Routes>
+      </div>
+    </>
   )
 }
 

@@ -17,7 +17,7 @@ export default function SuppliersPage() {
         createSupplier(data, { onSuccess: () => reset() });
     }
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading || isPending) return <div>Loading...</div>
     if (error) return <div>Error</div>
 
     return (
