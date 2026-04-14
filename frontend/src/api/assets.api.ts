@@ -1,4 +1,4 @@
-import type { AssetType } from '../types/types'
+import type { AssetType, CreateAssetType } from '../types/types'
 import { axiosInstance } from '../utils'
 
 export async function getAsset(id: string) {
@@ -11,12 +11,12 @@ export async function getAssets() {
     return res.data
 }
 
-export async function createAsset(data: AssetType) {
+export async function createAsset(data: CreateAssetType) {
     const res = await axiosInstance.post('/assets', data)
     return res.data
 }
 
-export async function updateAsset(id: string, data: Partial<AssetType>) {
+export async function updateAsset(id: string, data: Partial<CreateAssetType>) {
     const res = await axiosInstance.put(`/assets/${id}`, data)
     return res.data
 }

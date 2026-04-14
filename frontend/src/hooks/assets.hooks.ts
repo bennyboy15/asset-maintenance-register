@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { createAsset, deleteAsset, getAsset, getAssets, updateAsset } from '../api/assets.api'
-import type { AssetType } from '../types/types'
+import type { AssetType, CreateAssetType } from '../types/types'
 
 export function useAsset(id: string, options = {}) {
     return useQuery({
@@ -24,7 +24,7 @@ export function useCreateAsset() {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: createAsset,
+        mutationFn: (data: CreateAssetType) => createAsset(data),
 
         onSuccess: () => {
             toast.success('Asset created')
@@ -38,11 +38,15 @@ export function useCreateAsset() {
     })
 }
 
-export function useUpdateSupplier(id: string, data: AssetType) {
+type UpdateAssetType = {
+    id: string;
+    data: Partial<CreateAssetType>;
+}
+export function useUpdateAsset() {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: () => updateAsset(id, data),
+        mutationFn: ({ id, data }: UpdateAssetType) => updateAsset(id, data),
 
         onSuccess: () => {
             toast.success('Asset updated')

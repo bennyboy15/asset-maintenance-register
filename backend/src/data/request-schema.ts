@@ -77,9 +77,8 @@ const assetFields = {
   assetGroupId: Joi.string(),
 };
 
-
 export const createAssetSchema = Joi.object({
-  ...assetFields,
+  //...assetFields,
   name: assetFields.name.required(),
   frequency: assetFields.frequency.required(),
   lastService: assetFields.lastService.required(),

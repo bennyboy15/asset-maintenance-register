@@ -9,7 +9,7 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
             where: { id: req.params.id as string },
             omit: { password: true }
         });
-        return res.status(200).json({ user });
+        return res.status(200).json(user);
     } catch (error) {
         next(error)
     }
@@ -21,7 +21,7 @@ export async function getUsers(req: Request, res: Response, next: NextFunction) 
         const users = await prisma.user.findMany({
             omit: { password: true }
         });
-        return res.status(200).json({ users });
+        return res.status(200).json(users);
     } catch (error) {
         next(error)
     }
@@ -33,7 +33,7 @@ export async function createUser(req: Request, res: Response, next: NextFunction
             data: { ...req.body },
             omit: { password: true }
         });
-        return res.status(201).json({ user });
+        return res.status(201).json(user);
     } catch (error) {
         next(error)
     }
@@ -46,7 +46,7 @@ export async function updateUser(req: Request, res: Response, next: NextFunction
             data: { ...req.body },
             omit: { password: true }
         });
-        return res.status(200).json({ user });
+        return res.status(200).json(user);
     } catch (error) {
         next(error)
     }
@@ -57,7 +57,7 @@ export async function deleteUser(req: Request, res: Response, next: NextFunction
         const user = await prisma.user.delete({
             where: { id: req.params.id as string }
         });
-        return res.status(200).json({ user });
+        return res.status(200).json(user);
     } catch (error) {
         next(error)
     }

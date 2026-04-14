@@ -24,7 +24,11 @@ export async function getAssets(req: Request, res: Response, next: NextFunction)
 export async function createAsset(req: Request, res: Response, next: NextFunction) {
     try {
         const asset = await prisma.asset.create({
-            data: { ...req.body }
+            data: {
+                ...req.body,
+                isRetired: req.body.isRetired ?? false,
+                retiredOn: req.body.retiredOn ? new Date(req.body.retiredOn) : new Date(),
+            }
         });
         return res.status(201).json({ asset });
     } catch (error) {
