@@ -38,10 +38,12 @@ export type SupplierType = {
 }
 
 export type AssetGroupType = {
-    name: string
+    id: string;
+    name: string;
 }
 
 export type UserType = {
+    id: string;
     name: string;
     email: string;
     created_at: date;

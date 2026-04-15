@@ -1,8 +1,15 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useCreateAsset } from "../../hooks/assets.hooks"
-import type { CreateAssetType } from "../../types/types";
+import type { AssetGroupType, CreateAssetType, SupplierType, UserType } from "../../types/types";
+import { useUsers } from "../../hooks/users.hooks";
+import { useSuppliers } from "../../hooks/suppliers.hooks";
+import { useAssetGroups } from "../../hooks/assetGroups.hooks";
 
 function CreateAssetPage() {
+
+    const { data: users, isLoading: usersLoading } = useUsers();
+    const { data: suppliers, isLoading: suppliersLoading } = useSuppliers();
+    const { data: assetGroups, isLoading: assetGroupsLoading } = useAssetGroups();
 
     const { mutate: createAsset, isPending, isError } = useCreateAsset();
 
@@ -40,20 +47,31 @@ function CreateAssetPage() {
                 </div>
             </div>
 
-            {/* Foreign Key Selects (Simplified) */}
             <div>
                 <label>Responsible User ID</label>
-                <input {...register("responsibleUserId")} placeholder="Paste User ID" className="border p-2 w-full" />
+                <select {...register("responsibleUserId")} className="border p-2 w-full">
+                    {users?.map((user: UserType) => (
+                        <option value={user.id}>{user.name}</option>
+                    ))}
+                </select>
             </div>
 
             <div>
                 <label>Supplier ID</label>
-                <input {...register("supplierId")} placeholder="Paste Supplier ID" className="border p-2 w-full" />
+                <select {...register("supplierId")} className="border p-2 w-full">
+                    {suppliers?.map((supplier: SupplierType) => (
+                        <option value={supplier.id}>{supplier.name}</option>
+                    ))}
+                </select>
             </div>
 
             <div>
                 <label>Asset Group ID</label>
-                <input {...register("assetGroupId")} placeholder="Paste Group ID" className="border p-2 w-full" />
+                <select {...register("assetGroupId")} className="border p-2 w-full">
+                    {assetGroups?.map((assetGroup: AssetGroupType) => (
+                        <option value={assetGroup.id}>{assetGroup.name}</option>
+                    ))}
+                </select>
             </div>
 
             <button
