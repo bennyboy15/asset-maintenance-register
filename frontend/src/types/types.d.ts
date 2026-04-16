@@ -37,6 +37,10 @@ export type SupplierType = {
     name: string;
 }
 
+export type CreateSupplierType = {
+    name: string
+}
+
 export type AssetGroupType = {
     id: string;
     name: string;

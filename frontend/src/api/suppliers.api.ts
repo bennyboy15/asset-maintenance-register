@@ -1,4 +1,4 @@
-import type { SupplierType } from '../types/types'
+import type { CreateSupplierType, SupplierType } from '../types/types'
 import { axiosInstance } from '../utils'
 
 export async function getSupplier(id: string) {
@@ -11,7 +11,7 @@ export async function getSuppliers() {
     return res.data
 }
 
-export async function createSupplier(data: SupplierType) {
+export async function createSupplier(data: CreateSupplierType) {
     const res = await axiosInstance.post('/suppliers', data)
     return res.data
 }

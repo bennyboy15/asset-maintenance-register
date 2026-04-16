@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createSupplier, deleteSupplier, getSupplier, getSuppliers, updateSupplier } from '../api/suppliers.api'
 import toast from 'react-hot-toast'
-import type { SupplierType } from '../types/types'
+import type { CreateSupplierType, SupplierType } from '../types/types'
 
 export function useSupplier(id: string, options = {}) {
     return useQuery({
@@ -24,7 +24,7 @@ export function useCreateSupplier() {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: (data: SupplierType) => createSupplier(data),
+        mutationFn: (data: CreateSupplierType) => createSupplier(data),
 
         onSuccess: () => {
             toast.success('Supplier created')
