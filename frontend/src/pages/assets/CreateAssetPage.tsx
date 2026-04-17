@@ -4,7 +4,8 @@ import type { AssetGroupType, CreateAssetType, CreateSupplierType, SupplierType,
 import { useUsers } from "../../hooks/users.hooks";
 import { useCreateSupplier, useSuppliers } from "../../hooks/suppliers.hooks";
 import { useAssetGroups } from "../../hooks/assetGroups.hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { addDays, format, parseISO } from "date-fns";
 
 const inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2.5 outline-none transition-all";
 const labelClass = "block text-sm font-semibold text-gray-700";
@@ -22,7 +23,13 @@ function CreateAssetPage() {
     const { mutate: createSupplier, isPending: createSupplierPending } = useCreateSupplier();
 
     // Form 1: Main Asset
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateAssetType>();
+    const { register, handleSubmit, watch, setValue, reset, formState: { errors, } } = useForm<CreateAssetType>();
+    const lastService = watch("lastService");
+    const frequency = watch("frequency");
+
+    useEffect(() => {
+        setValue("nextService", addDays(lastService, frequency));
+    }, [frequency, lastService, setValue])
 
     // Form 2: Inline Supplier (used separately)
     const { register: supplierRegister, handleSubmit: handleSupplierSubmit, reset: supplierReset } = useForm<CreateSupplierType>();
@@ -58,7 +65,7 @@ function CreateAssetPage() {
                     {/* Frequency */}
                     <div>
                         <label className={labelClass}>Service Frequency (Days)</label>
-                        <input type="number" {...register("frequency")} className={inputClass} />
+                        <input type="number" {...register("frequency")} min={1} defaultValue={1} className={inputClass} />
                     </div>
 
                     {/* Asset Group */}
@@ -81,7 +88,7 @@ function CreateAssetPage() {
                     </div>
                     <div>
                         <label className={labelClass}>Next Service</label>
-                        <input type="date" {...register("nextService")} className={inputClass} />
+                        <input type="text" className="border border-gray-200 p-2 mt-1 w-full shadow rounded" value={format(watch("nextService"), "dd-MM-yyyy")} />
                     </div>
                 </div>
 
