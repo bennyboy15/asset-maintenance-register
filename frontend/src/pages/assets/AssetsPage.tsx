@@ -4,6 +4,9 @@ import { useAssets } from "../../hooks/assets.hooks";
 import type { AssetType } from "../../types/types";
 import { format } from "date-fns";
 import { getStatus } from "../../utils";
+import { Skeleton } from "../../components/ui/skeleton";
+import skeleton from "../../components/skeleton";
+import SkeletonRefine from "../../components/skeleton";
 
 function AssetsPage() {
     const [viewMine, setViewMine] = useState(false);
@@ -41,7 +44,13 @@ function AssetsPage() {
                 </div>
             </div>
 
-            {isLoading ? <div>Loading...</div> :
+            {isLoading ? (
+                [1, 2, 3].map((item) => (
+                    <div className="mb-4">
+                        <SkeletonRefine key={item} />
+                    </div>
+                ))
+            ) :
 
                 <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <table className="w-full text-left border-collapse">
