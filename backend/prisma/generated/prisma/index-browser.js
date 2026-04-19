@@ -158,6 +158,14 @@ exports.Prisma.AssetScalarFieldEnum = {
   assetGroupId: 'assetGroupId'
 };
 
+exports.Prisma.HistoryScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  assetId: 'assetId',
+  supplierId: 'supplierId',
+  date: 'date'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -167,13 +175,18 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
-
+exports.MaintenanceType = exports.$Enums.MaintenanceType = {
+  SERVICE: 'SERVICE',
+  REPAIR: 'REPAIR',
+  DISPOSE: 'DISPOSE'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
   Supplier: 'Supplier',
   AssetGroup: 'AssetGroup',
-  Asset: 'Asset'
+  Asset: 'Asset',
+  History: 'History'
 };
 
 /**

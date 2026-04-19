@@ -89,3 +89,23 @@ export const createAssetSchema = Joi.object({
 });
 
 export const updateAssetSchema = Joi.object(assetFields).min(1);
+
+const historyFields = {
+  type: Joi.string().min(1).messages({ "string.empty": "History type is required" }),
+  assetId: Joi.string().min(1).messages({ "string.empty": "Asset is required" }),
+  supplierId: Joi.string().min(1).messages({ "string.empty": "Service supplier is required" }),
+  date: Joi.date().iso()
+}
+
+export const createHistorySchema = Joi.object({
+  type: historyFields.type.required(),
+  assetId: historyFields.assetId.required(),
+  supplierId: historyFields.supplierId.required(),
+  date: historyFields.date.required()
+})
+
+export const updateHistorySchema = Joi.object({
+  type: historyFields.type.optional(),
+  supplierId: historyFields.supplierId.optional(),
+  date: historyFields.date.optional()
+})

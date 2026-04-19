@@ -22,11 +22,12 @@ model User {
 }
 
 model Supplier {
-  id         String   @id @default(cuid())
+  id         String    @id @default(cuid())
   name       String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
   assets     Asset[]
+  history    History[]
 
   @@map("suppliers")
 }
@@ -59,6 +60,25 @@ model Asset {
   supplierId        String
   assetGroup        AssetGroup @relation(fields: [assetGroupId], references: [id])
   assetGroupId      String
+  history           History[]
 
   @@map("assets")
+}
+
+enum MaintenanceType {
+  SERVICE
+  REPAIR
+  DISPOSE
+}
+
+model History {
+  id         String          @id @default(cuid())
+  type       MaintenanceType
+  assetId    String
+  asset      Asset           @relation(fields: [assetId], references: [id])
+  supplier   Supplier        @relation(fields: [supplierId], references: [id])
+  supplierId String
+  date       DateTime        @db.Date
+
+  @@map("history")
 }

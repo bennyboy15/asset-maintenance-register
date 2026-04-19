@@ -33,6 +33,29 @@ export type AssetGroup = $Result.DefaultSelection<Prisma.$AssetGroupPayload>
  * 
  */
 export type Asset = $Result.DefaultSelection<Prisma.$AssetPayload>
+/**
+ * Model History
+ * 
+ */
+export type History = $Result.DefaultSelection<Prisma.$HistoryPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const MaintenanceType: {
+  SERVICE: 'SERVICE',
+  REPAIR: 'REPAIR',
+  DISPOSE: 'DISPOSE'
+};
+
+export type MaintenanceType = (typeof MaintenanceType)[keyof typeof MaintenanceType]
+
+}
+
+export type MaintenanceType = $Enums.MaintenanceType
+
+export const MaintenanceType: typeof $Enums.MaintenanceType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -194,6 +217,16 @@ export class PrismaClient<
     * ```
     */
   get asset(): Prisma.AssetDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.history`: Exposes CRUD operations for the **History** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Histories
+    * const histories = await prisma.history.findMany()
+    * ```
+    */
+  get history(): Prisma.HistoryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -631,7 +664,8 @@ export namespace Prisma {
     User: 'User',
     Supplier: 'Supplier',
     AssetGroup: 'AssetGroup',
-    Asset: 'Asset'
+    Asset: 'Asset',
+    History: 'History'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -647,7 +681,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "supplier" | "assetGroup" | "asset"
+      modelProps: "user" | "supplier" | "assetGroup" | "asset" | "history"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -947,6 +981,80 @@ export namespace Prisma {
           }
         }
       }
+      History: {
+        payload: Prisma.$HistoryPayload<ExtArgs>
+        fields: Prisma.HistoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.HistoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HistoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoryPayload>
+          }
+          findFirst: {
+            args: Prisma.HistoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HistoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoryPayload>
+          }
+          findMany: {
+            args: Prisma.HistoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoryPayload>[]
+          }
+          create: {
+            args: Prisma.HistoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoryPayload>
+          }
+          createMany: {
+            args: Prisma.HistoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.HistoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoryPayload>[]
+          }
+          delete: {
+            args: Prisma.HistoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoryPayload>
+          }
+          update: {
+            args: Prisma.HistoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.HistoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HistoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.HistoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.HistoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoryPayload>
+          }
+          aggregate: {
+            args: Prisma.HistoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHistory>
+          }
+          groupBy: {
+            args: Prisma.HistoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<HistoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.HistoryCountArgs<ExtArgs>
+            result: $Utils.Optional<HistoryCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1059,6 +1167,7 @@ export namespace Prisma {
     supplier?: SupplierOmit
     assetGroup?: AssetGroupOmit
     asset?: AssetOmit
+    history?: HistoryOmit
   }
 
   /* Types for Logging */
@@ -1171,10 +1280,12 @@ export namespace Prisma {
 
   export type SupplierCountOutputType = {
     assets: number
+    history: number
   }
 
   export type SupplierCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assets?: boolean | SupplierCountOutputTypeCountAssetsArgs
+    history?: boolean | SupplierCountOutputTypeCountHistoryArgs
   }
 
   // Custom InputTypes
@@ -1193,6 +1304,13 @@ export namespace Prisma {
    */
   export type SupplierCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AssetWhereInput
+  }
+
+  /**
+   * SupplierCountOutputType without action
+   */
+  export type SupplierCountOutputTypeCountHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HistoryWhereInput
   }
 
 
@@ -1224,6 +1342,37 @@ export namespace Prisma {
    */
   export type AssetGroupCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AssetWhereInput
+  }
+
+
+  /**
+   * Count Type AssetCountOutputType
+   */
+
+  export type AssetCountOutputType = {
+    history: number
+  }
+
+  export type AssetCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    history?: boolean | AssetCountOutputTypeCountHistoryArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AssetCountOutputType without action
+   */
+  export type AssetCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetCountOutputType
+     */
+    select?: AssetCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AssetCountOutputType without action
+   */
+  export type AssetCountOutputTypeCountHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HistoryWhereInput
   }
 
 
@@ -2476,6 +2625,7 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     assets?: boolean | Supplier$assetsArgs<ExtArgs>
+    history?: boolean | Supplier$historyArgs<ExtArgs>
     _count?: boolean | SupplierCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["supplier"]>
 
@@ -2503,6 +2653,7 @@ export namespace Prisma {
   export type SupplierOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "created_at" | "updated_at", ExtArgs["result"]["supplier"]>
   export type SupplierInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assets?: boolean | Supplier$assetsArgs<ExtArgs>
+    history?: boolean | Supplier$historyArgs<ExtArgs>
     _count?: boolean | SupplierCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SupplierIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2512,6 +2663,7 @@ export namespace Prisma {
     name: "Supplier"
     objects: {
       assets: Prisma.$AssetPayload<ExtArgs>[]
+      history: Prisma.$HistoryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2913,6 +3065,7 @@ export namespace Prisma {
   export interface Prisma__SupplierClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     assets<T extends Supplier$assetsArgs<ExtArgs> = {}>(args?: Subset<T, Supplier$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    history<T extends Supplier$historyArgs<ExtArgs> = {}>(args?: Subset<T, Supplier$historyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3360,6 +3513,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AssetScalarFieldEnum | AssetScalarFieldEnum[]
+  }
+
+  /**
+   * Supplier.history
+   */
+  export type Supplier$historyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryInclude<ExtArgs> | null
+    where?: HistoryWhereInput
+    orderBy?: HistoryOrderByWithRelationInput | HistoryOrderByWithRelationInput[]
+    cursor?: HistoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HistoryScalarFieldEnum | HistoryScalarFieldEnum[]
   }
 
   /**
@@ -4700,6 +4877,8 @@ export namespace Prisma {
     responsibleUser?: boolean | UserDefaultArgs<ExtArgs>
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
     assetGroup?: boolean | AssetGroupDefaultArgs<ExtArgs>
+    history?: boolean | Asset$historyArgs<ExtArgs>
+    _count?: boolean | AssetCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["asset"]>
 
   export type AssetSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4758,6 +4937,8 @@ export namespace Prisma {
     responsibleUser?: boolean | UserDefaultArgs<ExtArgs>
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
     assetGroup?: boolean | AssetGroupDefaultArgs<ExtArgs>
+    history?: boolean | Asset$historyArgs<ExtArgs>
+    _count?: boolean | AssetCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AssetIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     responsibleUser?: boolean | UserDefaultArgs<ExtArgs>
@@ -4776,6 +4957,7 @@ export namespace Prisma {
       responsibleUser: Prisma.$UserPayload<ExtArgs>
       supplier: Prisma.$SupplierPayload<ExtArgs>
       assetGroup: Prisma.$AssetGroupPayload<ExtArgs>
+      history: Prisma.$HistoryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5187,6 +5369,7 @@ export namespace Prisma {
     responsibleUser<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     supplier<T extends SupplierDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SupplierDefaultArgs<ExtArgs>>): Prisma__SupplierClient<$Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     assetGroup<T extends AssetGroupDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AssetGroupDefaultArgs<ExtArgs>>): Prisma__AssetGroupClient<$Result.GetResult<Prisma.$AssetGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    history<T extends Asset$historyArgs<ExtArgs> = {}>(args?: Subset<T, Asset$historyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5629,6 +5812,30 @@ export namespace Prisma {
   }
 
   /**
+   * Asset.history
+   */
+  export type Asset$historyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryInclude<ExtArgs> | null
+    where?: HistoryWhereInput
+    orderBy?: HistoryOrderByWithRelationInput | HistoryOrderByWithRelationInput[]
+    cursor?: HistoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HistoryScalarFieldEnum | HistoryScalarFieldEnum[]
+  }
+
+  /**
    * Asset without action
    */
   export type AssetDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5644,6 +5851,1077 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AssetInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model History
+   */
+
+  export type AggregateHistory = {
+    _count: HistoryCountAggregateOutputType | null
+    _min: HistoryMinAggregateOutputType | null
+    _max: HistoryMaxAggregateOutputType | null
+  }
+
+  export type HistoryMinAggregateOutputType = {
+    id: string | null
+    type: $Enums.MaintenanceType | null
+    assetId: string | null
+    supplierId: string | null
+    date: Date | null
+  }
+
+  export type HistoryMaxAggregateOutputType = {
+    id: string | null
+    type: $Enums.MaintenanceType | null
+    assetId: string | null
+    supplierId: string | null
+    date: Date | null
+  }
+
+  export type HistoryCountAggregateOutputType = {
+    id: number
+    type: number
+    assetId: number
+    supplierId: number
+    date: number
+    _all: number
+  }
+
+
+  export type HistoryMinAggregateInputType = {
+    id?: true
+    type?: true
+    assetId?: true
+    supplierId?: true
+    date?: true
+  }
+
+  export type HistoryMaxAggregateInputType = {
+    id?: true
+    type?: true
+    assetId?: true
+    supplierId?: true
+    date?: true
+  }
+
+  export type HistoryCountAggregateInputType = {
+    id?: true
+    type?: true
+    assetId?: true
+    supplierId?: true
+    date?: true
+    _all?: true
+  }
+
+  export type HistoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which History to aggregate.
+     */
+    where?: HistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Histories to fetch.
+     */
+    orderBy?: HistoryOrderByWithRelationInput | HistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Histories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Histories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Histories
+    **/
+    _count?: true | HistoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HistoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HistoryMaxAggregateInputType
+  }
+
+  export type GetHistoryAggregateType<T extends HistoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateHistory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHistory[P]>
+      : GetScalarType<T[P], AggregateHistory[P]>
+  }
+
+
+
+
+  export type HistoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HistoryWhereInput
+    orderBy?: HistoryOrderByWithAggregationInput | HistoryOrderByWithAggregationInput[]
+    by: HistoryScalarFieldEnum[] | HistoryScalarFieldEnum
+    having?: HistoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HistoryCountAggregateInputType | true
+    _min?: HistoryMinAggregateInputType
+    _max?: HistoryMaxAggregateInputType
+  }
+
+  export type HistoryGroupByOutputType = {
+    id: string
+    type: $Enums.MaintenanceType
+    assetId: string
+    supplierId: string
+    date: Date
+    _count: HistoryCountAggregateOutputType | null
+    _min: HistoryMinAggregateOutputType | null
+    _max: HistoryMaxAggregateOutputType | null
+  }
+
+  type GetHistoryGroupByPayload<T extends HistoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<HistoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HistoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HistoryGroupByOutputType[P]>
+            : GetScalarType<T[P], HistoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HistorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    assetId?: boolean
+    supplierId?: boolean
+    date?: boolean
+    asset?: boolean | AssetDefaultArgs<ExtArgs>
+    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["history"]>
+
+  export type HistorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    assetId?: boolean
+    supplierId?: boolean
+    date?: boolean
+    asset?: boolean | AssetDefaultArgs<ExtArgs>
+    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["history"]>
+
+  export type HistorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    assetId?: boolean
+    supplierId?: boolean
+    date?: boolean
+    asset?: boolean | AssetDefaultArgs<ExtArgs>
+    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["history"]>
+
+  export type HistorySelectScalar = {
+    id?: boolean
+    type?: boolean
+    assetId?: boolean
+    supplierId?: boolean
+    date?: boolean
+  }
+
+  export type HistoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "assetId" | "supplierId" | "date", ExtArgs["result"]["history"]>
+  export type HistoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    asset?: boolean | AssetDefaultArgs<ExtArgs>
+    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+  }
+  export type HistoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    asset?: boolean | AssetDefaultArgs<ExtArgs>
+    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+  }
+  export type HistoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    asset?: boolean | AssetDefaultArgs<ExtArgs>
+    supplier?: boolean | SupplierDefaultArgs<ExtArgs>
+  }
+
+  export type $HistoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "History"
+    objects: {
+      asset: Prisma.$AssetPayload<ExtArgs>
+      supplier: Prisma.$SupplierPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      type: $Enums.MaintenanceType
+      assetId: string
+      supplierId: string
+      date: Date
+    }, ExtArgs["result"]["history"]>
+    composites: {}
+  }
+
+  type HistoryGetPayload<S extends boolean | null | undefined | HistoryDefaultArgs> = $Result.GetResult<Prisma.$HistoryPayload, S>
+
+  type HistoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<HistoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: HistoryCountAggregateInputType | true
+    }
+
+  export interface HistoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['History'], meta: { name: 'History' } }
+    /**
+     * Find zero or one History that matches the filter.
+     * @param {HistoryFindUniqueArgs} args - Arguments to find a History
+     * @example
+     * // Get one History
+     * const history = await prisma.history.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends HistoryFindUniqueArgs>(args: SelectSubset<T, HistoryFindUniqueArgs<ExtArgs>>): Prisma__HistoryClient<$Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one History that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {HistoryFindUniqueOrThrowArgs} args - Arguments to find a History
+     * @example
+     * // Get one History
+     * const history = await prisma.history.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends HistoryFindUniqueOrThrowArgs>(args: SelectSubset<T, HistoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__HistoryClient<$Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first History that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoryFindFirstArgs} args - Arguments to find a History
+     * @example
+     * // Get one History
+     * const history = await prisma.history.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends HistoryFindFirstArgs>(args?: SelectSubset<T, HistoryFindFirstArgs<ExtArgs>>): Prisma__HistoryClient<$Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first History that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoryFindFirstOrThrowArgs} args - Arguments to find a History
+     * @example
+     * // Get one History
+     * const history = await prisma.history.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends HistoryFindFirstOrThrowArgs>(args?: SelectSubset<T, HistoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__HistoryClient<$Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Histories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Histories
+     * const histories = await prisma.history.findMany()
+     * 
+     * // Get first 10 Histories
+     * const histories = await prisma.history.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const historyWithIdOnly = await prisma.history.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends HistoryFindManyArgs>(args?: SelectSubset<T, HistoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a History.
+     * @param {HistoryCreateArgs} args - Arguments to create a History.
+     * @example
+     * // Create one History
+     * const History = await prisma.history.create({
+     *   data: {
+     *     // ... data to create a History
+     *   }
+     * })
+     * 
+     */
+    create<T extends HistoryCreateArgs>(args: SelectSubset<T, HistoryCreateArgs<ExtArgs>>): Prisma__HistoryClient<$Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Histories.
+     * @param {HistoryCreateManyArgs} args - Arguments to create many Histories.
+     * @example
+     * // Create many Histories
+     * const history = await prisma.history.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends HistoryCreateManyArgs>(args?: SelectSubset<T, HistoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Histories and returns the data saved in the database.
+     * @param {HistoryCreateManyAndReturnArgs} args - Arguments to create many Histories.
+     * @example
+     * // Create many Histories
+     * const history = await prisma.history.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Histories and only return the `id`
+     * const historyWithIdOnly = await prisma.history.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends HistoryCreateManyAndReturnArgs>(args?: SelectSubset<T, HistoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a History.
+     * @param {HistoryDeleteArgs} args - Arguments to delete one History.
+     * @example
+     * // Delete one History
+     * const History = await prisma.history.delete({
+     *   where: {
+     *     // ... filter to delete one History
+     *   }
+     * })
+     * 
+     */
+    delete<T extends HistoryDeleteArgs>(args: SelectSubset<T, HistoryDeleteArgs<ExtArgs>>): Prisma__HistoryClient<$Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one History.
+     * @param {HistoryUpdateArgs} args - Arguments to update one History.
+     * @example
+     * // Update one History
+     * const history = await prisma.history.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends HistoryUpdateArgs>(args: SelectSubset<T, HistoryUpdateArgs<ExtArgs>>): Prisma__HistoryClient<$Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Histories.
+     * @param {HistoryDeleteManyArgs} args - Arguments to filter Histories to delete.
+     * @example
+     * // Delete a few Histories
+     * const { count } = await prisma.history.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends HistoryDeleteManyArgs>(args?: SelectSubset<T, HistoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Histories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Histories
+     * const history = await prisma.history.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends HistoryUpdateManyArgs>(args: SelectSubset<T, HistoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Histories and returns the data updated in the database.
+     * @param {HistoryUpdateManyAndReturnArgs} args - Arguments to update many Histories.
+     * @example
+     * // Update many Histories
+     * const history = await prisma.history.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Histories and only return the `id`
+     * const historyWithIdOnly = await prisma.history.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends HistoryUpdateManyAndReturnArgs>(args: SelectSubset<T, HistoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one History.
+     * @param {HistoryUpsertArgs} args - Arguments to update or create a History.
+     * @example
+     * // Update or create a History
+     * const history = await prisma.history.upsert({
+     *   create: {
+     *     // ... data to create a History
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the History we want to update
+     *   }
+     * })
+     */
+    upsert<T extends HistoryUpsertArgs>(args: SelectSubset<T, HistoryUpsertArgs<ExtArgs>>): Prisma__HistoryClient<$Result.GetResult<Prisma.$HistoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Histories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoryCountArgs} args - Arguments to filter Histories to count.
+     * @example
+     * // Count the number of Histories
+     * const count = await prisma.history.count({
+     *   where: {
+     *     // ... the filter for the Histories we want to count
+     *   }
+     * })
+    **/
+    count<T extends HistoryCountArgs>(
+      args?: Subset<T, HistoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HistoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a History.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HistoryAggregateArgs>(args: Subset<T, HistoryAggregateArgs>): Prisma.PrismaPromise<GetHistoryAggregateType<T>>
+
+    /**
+     * Group by History.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HistoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HistoryGroupByArgs['orderBy'] }
+        : { orderBy?: HistoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HistoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHistoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the History model
+   */
+  readonly fields: HistoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for History.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__HistoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    asset<T extends AssetDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AssetDefaultArgs<ExtArgs>>): Prisma__AssetClient<$Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    supplier<T extends SupplierDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SupplierDefaultArgs<ExtArgs>>): Prisma__SupplierClient<$Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the History model
+   */
+  interface HistoryFieldRefs {
+    readonly id: FieldRef<"History", 'String'>
+    readonly type: FieldRef<"History", 'MaintenanceType'>
+    readonly assetId: FieldRef<"History", 'String'>
+    readonly supplierId: FieldRef<"History", 'String'>
+    readonly date: FieldRef<"History", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * History findUnique
+   */
+  export type HistoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which History to fetch.
+     */
+    where: HistoryWhereUniqueInput
+  }
+
+  /**
+   * History findUniqueOrThrow
+   */
+  export type HistoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which History to fetch.
+     */
+    where: HistoryWhereUniqueInput
+  }
+
+  /**
+   * History findFirst
+   */
+  export type HistoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which History to fetch.
+     */
+    where?: HistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Histories to fetch.
+     */
+    orderBy?: HistoryOrderByWithRelationInput | HistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Histories.
+     */
+    cursor?: HistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Histories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Histories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Histories.
+     */
+    distinct?: HistoryScalarFieldEnum | HistoryScalarFieldEnum[]
+  }
+
+  /**
+   * History findFirstOrThrow
+   */
+  export type HistoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which History to fetch.
+     */
+    where?: HistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Histories to fetch.
+     */
+    orderBy?: HistoryOrderByWithRelationInput | HistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Histories.
+     */
+    cursor?: HistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Histories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Histories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Histories.
+     */
+    distinct?: HistoryScalarFieldEnum | HistoryScalarFieldEnum[]
+  }
+
+  /**
+   * History findMany
+   */
+  export type HistoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Histories to fetch.
+     */
+    where?: HistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Histories to fetch.
+     */
+    orderBy?: HistoryOrderByWithRelationInput | HistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Histories.
+     */
+    cursor?: HistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Histories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Histories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Histories.
+     */
+    distinct?: HistoryScalarFieldEnum | HistoryScalarFieldEnum[]
+  }
+
+  /**
+   * History create
+   */
+  export type HistoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a History.
+     */
+    data: XOR<HistoryCreateInput, HistoryUncheckedCreateInput>
+  }
+
+  /**
+   * History createMany
+   */
+  export type HistoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Histories.
+     */
+    data: HistoryCreateManyInput | HistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * History createManyAndReturn
+   */
+  export type HistoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many Histories.
+     */
+    data: HistoryCreateManyInput | HistoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * History update
+   */
+  export type HistoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a History.
+     */
+    data: XOR<HistoryUpdateInput, HistoryUncheckedUpdateInput>
+    /**
+     * Choose, which History to update.
+     */
+    where: HistoryWhereUniqueInput
+  }
+
+  /**
+   * History updateMany
+   */
+  export type HistoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Histories.
+     */
+    data: XOR<HistoryUpdateManyMutationInput, HistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which Histories to update
+     */
+    where?: HistoryWhereInput
+    /**
+     * Limit how many Histories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * History updateManyAndReturn
+   */
+  export type HistoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * The data used to update Histories.
+     */
+    data: XOR<HistoryUpdateManyMutationInput, HistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which Histories to update
+     */
+    where?: HistoryWhereInput
+    /**
+     * Limit how many Histories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * History upsert
+   */
+  export type HistoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the History to update in case it exists.
+     */
+    where: HistoryWhereUniqueInput
+    /**
+     * In case the History found by the `where` argument doesn't exist, create a new History with this data.
+     */
+    create: XOR<HistoryCreateInput, HistoryUncheckedCreateInput>
+    /**
+     * In case the History was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HistoryUpdateInput, HistoryUncheckedUpdateInput>
+  }
+
+  /**
+   * History delete
+   */
+  export type HistoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryInclude<ExtArgs> | null
+    /**
+     * Filter which History to delete.
+     */
+    where: HistoryWhereUniqueInput
+  }
+
+  /**
+   * History deleteMany
+   */
+  export type HistoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Histories to delete
+     */
+    where?: HistoryWhereInput
+    /**
+     * Limit how many Histories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * History without action
+   */
+  export type HistoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the History
+     */
+    select?: HistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the History
+     */
+    omit?: HistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoryInclude<ExtArgs> | null
   }
 
 
@@ -5709,6 +6987,17 @@ export namespace Prisma {
   };
 
   export type AssetScalarFieldEnum = (typeof AssetScalarFieldEnum)[keyof typeof AssetScalarFieldEnum]
+
+
+  export const HistoryScalarFieldEnum: {
+    id: 'id',
+    type: 'type',
+    assetId: 'assetId',
+    supplierId: 'supplierId',
+    date: 'date'
+  };
+
+  export type HistoryScalarFieldEnum = (typeof HistoryScalarFieldEnum)[keyof typeof HistoryScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5778,6 +7067,20 @@ export namespace Prisma {
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'MaintenanceType'
+   */
+  export type EnumMaintenanceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MaintenanceType'>
+    
+
+
+  /**
+   * Reference to a field of type 'MaintenanceType[]'
+   */
+  export type ListEnumMaintenanceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MaintenanceType[]'>
     
 
 
@@ -5867,6 +7170,7 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"Supplier"> | Date | string
     updated_at?: DateTimeFilter<"Supplier"> | Date | string
     assets?: AssetListRelationFilter
+    history?: HistoryListRelationFilter
   }
 
   export type SupplierOrderByWithRelationInput = {
@@ -5875,6 +7179,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     assets?: AssetOrderByRelationAggregateInput
+    history?: HistoryOrderByRelationAggregateInput
   }
 
   export type SupplierWhereUniqueInput = Prisma.AtLeast<{
@@ -5886,6 +7191,7 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"Supplier"> | Date | string
     updated_at?: DateTimeFilter<"Supplier"> | Date | string
     assets?: AssetListRelationFilter
+    history?: HistoryListRelationFilter
   }, "id">
 
   export type SupplierOrderByWithAggregationInput = {
@@ -5977,6 +7283,7 @@ export namespace Prisma {
     responsibleUser?: XOR<UserScalarRelationFilter, UserWhereInput>
     supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
     assetGroup?: XOR<AssetGroupScalarRelationFilter, AssetGroupWhereInput>
+    history?: HistoryListRelationFilter
   }
 
   export type AssetOrderByWithRelationInput = {
@@ -5995,6 +7302,7 @@ export namespace Prisma {
     responsibleUser?: UserOrderByWithRelationInput
     supplier?: SupplierOrderByWithRelationInput
     assetGroup?: AssetGroupOrderByWithRelationInput
+    history?: HistoryOrderByRelationAggregateInput
   }
 
   export type AssetWhereUniqueInput = Prisma.AtLeast<{
@@ -6016,6 +7324,7 @@ export namespace Prisma {
     responsibleUser?: XOR<UserScalarRelationFilter, UserWhereInput>
     supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
     assetGroup?: XOR<AssetGroupScalarRelationFilter, AssetGroupWhereInput>
+    history?: HistoryListRelationFilter
   }, "id">
 
   export type AssetOrderByWithAggregationInput = {
@@ -6054,6 +7363,64 @@ export namespace Prisma {
     responsibleUserId?: StringWithAggregatesFilter<"Asset"> | string
     supplierId?: StringWithAggregatesFilter<"Asset"> | string
     assetGroupId?: StringWithAggregatesFilter<"Asset"> | string
+  }
+
+  export type HistoryWhereInput = {
+    AND?: HistoryWhereInput | HistoryWhereInput[]
+    OR?: HistoryWhereInput[]
+    NOT?: HistoryWhereInput | HistoryWhereInput[]
+    id?: StringFilter<"History"> | string
+    type?: EnumMaintenanceTypeFilter<"History"> | $Enums.MaintenanceType
+    assetId?: StringFilter<"History"> | string
+    supplierId?: StringFilter<"History"> | string
+    date?: DateTimeFilter<"History"> | Date | string
+    asset?: XOR<AssetScalarRelationFilter, AssetWhereInput>
+    supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
+  }
+
+  export type HistoryOrderByWithRelationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    assetId?: SortOrder
+    supplierId?: SortOrder
+    date?: SortOrder
+    asset?: AssetOrderByWithRelationInput
+    supplier?: SupplierOrderByWithRelationInput
+  }
+
+  export type HistoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: HistoryWhereInput | HistoryWhereInput[]
+    OR?: HistoryWhereInput[]
+    NOT?: HistoryWhereInput | HistoryWhereInput[]
+    type?: EnumMaintenanceTypeFilter<"History"> | $Enums.MaintenanceType
+    assetId?: StringFilter<"History"> | string
+    supplierId?: StringFilter<"History"> | string
+    date?: DateTimeFilter<"History"> | Date | string
+    asset?: XOR<AssetScalarRelationFilter, AssetWhereInput>
+    supplier?: XOR<SupplierScalarRelationFilter, SupplierWhereInput>
+  }, "id">
+
+  export type HistoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    assetId?: SortOrder
+    supplierId?: SortOrder
+    date?: SortOrder
+    _count?: HistoryCountOrderByAggregateInput
+    _max?: HistoryMaxOrderByAggregateInput
+    _min?: HistoryMinOrderByAggregateInput
+  }
+
+  export type HistoryScalarWhereWithAggregatesInput = {
+    AND?: HistoryScalarWhereWithAggregatesInput | HistoryScalarWhereWithAggregatesInput[]
+    OR?: HistoryScalarWhereWithAggregatesInput[]
+    NOT?: HistoryScalarWhereWithAggregatesInput | HistoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"History"> | string
+    type?: EnumMaintenanceTypeWithAggregatesFilter<"History"> | $Enums.MaintenanceType
+    assetId?: StringWithAggregatesFilter<"History"> | string
+    supplierId?: StringWithAggregatesFilter<"History"> | string
+    date?: DateTimeWithAggregatesFilter<"History"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -6129,6 +7496,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     assets?: AssetCreateNestedManyWithoutSupplierInput
+    history?: HistoryCreateNestedManyWithoutSupplierInput
   }
 
   export type SupplierUncheckedCreateInput = {
@@ -6137,6 +7505,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     assets?: AssetUncheckedCreateNestedManyWithoutSupplierInput
+    history?: HistoryUncheckedCreateNestedManyWithoutSupplierInput
   }
 
   export type SupplierUpdateInput = {
@@ -6145,6 +7514,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assets?: AssetUpdateManyWithoutSupplierNestedInput
+    history?: HistoryUpdateManyWithoutSupplierNestedInput
   }
 
   export type SupplierUncheckedUpdateInput = {
@@ -6153,6 +7523,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assets?: AssetUncheckedUpdateManyWithoutSupplierNestedInput
+    history?: HistoryUncheckedUpdateManyWithoutSupplierNestedInput
   }
 
   export type SupplierCreateManyInput = {
@@ -6242,6 +7613,7 @@ export namespace Prisma {
     responsibleUser: UserCreateNestedOneWithoutAssetsInput
     supplier: SupplierCreateNestedOneWithoutAssetsInput
     assetGroup: AssetGroupCreateNestedOneWithoutAssetsInput
+    history?: HistoryCreateNestedManyWithoutAssetInput
   }
 
   export type AssetUncheckedCreateInput = {
@@ -6257,6 +7629,7 @@ export namespace Prisma {
     responsibleUserId: string
     supplierId: string
     assetGroupId: string
+    history?: HistoryUncheckedCreateNestedManyWithoutAssetInput
   }
 
   export type AssetUpdateInput = {
@@ -6272,6 +7645,7 @@ export namespace Prisma {
     responsibleUser?: UserUpdateOneRequiredWithoutAssetsNestedInput
     supplier?: SupplierUpdateOneRequiredWithoutAssetsNestedInput
     assetGroup?: AssetGroupUpdateOneRequiredWithoutAssetsNestedInput
+    history?: HistoryUpdateManyWithoutAssetNestedInput
   }
 
   export type AssetUncheckedUpdateInput = {
@@ -6287,6 +7661,7 @@ export namespace Prisma {
     responsibleUserId?: StringFieldUpdateOperationsInput | string
     supplierId?: StringFieldUpdateOperationsInput | string
     assetGroupId?: StringFieldUpdateOperationsInput | string
+    history?: HistoryUncheckedUpdateManyWithoutAssetNestedInput
   }
 
   export type AssetCreateManyInput = {
@@ -6329,6 +7704,60 @@ export namespace Prisma {
     responsibleUserId?: StringFieldUpdateOperationsInput | string
     supplierId?: StringFieldUpdateOperationsInput | string
     assetGroupId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type HistoryCreateInput = {
+    id?: string
+    type: $Enums.MaintenanceType
+    date: Date | string
+    asset: AssetCreateNestedOneWithoutHistoryInput
+    supplier: SupplierCreateNestedOneWithoutHistoryInput
+  }
+
+  export type HistoryUncheckedCreateInput = {
+    id?: string
+    type: $Enums.MaintenanceType
+    assetId: string
+    supplierId: string
+    date: Date | string
+  }
+
+  export type HistoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMaintenanceTypeFieldUpdateOperationsInput | $Enums.MaintenanceType
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    asset?: AssetUpdateOneRequiredWithoutHistoryNestedInput
+    supplier?: SupplierUpdateOneRequiredWithoutHistoryNestedInput
+  }
+
+  export type HistoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMaintenanceTypeFieldUpdateOperationsInput | $Enums.MaintenanceType
+    assetId?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoryCreateManyInput = {
+    id?: string
+    type: $Enums.MaintenanceType
+    assetId: string
+    supplierId: string
+    date: Date | string
+  }
+
+  export type HistoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMaintenanceTypeFieldUpdateOperationsInput | $Enums.MaintenanceType
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMaintenanceTypeFieldUpdateOperationsInput | $Enums.MaintenanceType
+    assetId?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -6424,6 +7853,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type HistoryListRelationFilter = {
+    every?: HistoryWhereInput
+    some?: HistoryWhereInput
+    none?: HistoryWhereInput
+  }
+
+  export type HistoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type SupplierCountOrderByAggregateInput = {
@@ -6576,6 +8015,52 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type EnumMaintenanceTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.MaintenanceType | EnumMaintenanceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MaintenanceType[] | ListEnumMaintenanceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MaintenanceType[] | ListEnumMaintenanceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMaintenanceTypeFilter<$PrismaModel> | $Enums.MaintenanceType
+  }
+
+  export type AssetScalarRelationFilter = {
+    is?: AssetWhereInput
+    isNot?: AssetWhereInput
+  }
+
+  export type HistoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    assetId?: SortOrder
+    supplierId?: SortOrder
+    date?: SortOrder
+  }
+
+  export type HistoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    assetId?: SortOrder
+    supplierId?: SortOrder
+    date?: SortOrder
+  }
+
+  export type HistoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    assetId?: SortOrder
+    supplierId?: SortOrder
+    date?: SortOrder
+  }
+
+  export type EnumMaintenanceTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MaintenanceType | EnumMaintenanceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MaintenanceType[] | ListEnumMaintenanceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MaintenanceType[] | ListEnumMaintenanceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMaintenanceTypeWithAggregatesFilter<$PrismaModel> | $Enums.MaintenanceType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMaintenanceTypeFilter<$PrismaModel>
+    _max?: NestedEnumMaintenanceTypeFilter<$PrismaModel>
+  }
+
   export type AssetCreateNestedManyWithoutResponsibleUserInput = {
     create?: XOR<AssetCreateWithoutResponsibleUserInput, AssetUncheckedCreateWithoutResponsibleUserInput> | AssetCreateWithoutResponsibleUserInput[] | AssetUncheckedCreateWithoutResponsibleUserInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutResponsibleUserInput | AssetCreateOrConnectWithoutResponsibleUserInput[]
@@ -6633,11 +8118,25 @@ export namespace Prisma {
     connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
   }
 
+  export type HistoryCreateNestedManyWithoutSupplierInput = {
+    create?: XOR<HistoryCreateWithoutSupplierInput, HistoryUncheckedCreateWithoutSupplierInput> | HistoryCreateWithoutSupplierInput[] | HistoryUncheckedCreateWithoutSupplierInput[]
+    connectOrCreate?: HistoryCreateOrConnectWithoutSupplierInput | HistoryCreateOrConnectWithoutSupplierInput[]
+    createMany?: HistoryCreateManySupplierInputEnvelope
+    connect?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+  }
+
   export type AssetUncheckedCreateNestedManyWithoutSupplierInput = {
     create?: XOR<AssetCreateWithoutSupplierInput, AssetUncheckedCreateWithoutSupplierInput> | AssetCreateWithoutSupplierInput[] | AssetUncheckedCreateWithoutSupplierInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutSupplierInput | AssetCreateOrConnectWithoutSupplierInput[]
     createMany?: AssetCreateManySupplierInputEnvelope
     connect?: AssetWhereUniqueInput | AssetWhereUniqueInput[]
+  }
+
+  export type HistoryUncheckedCreateNestedManyWithoutSupplierInput = {
+    create?: XOR<HistoryCreateWithoutSupplierInput, HistoryUncheckedCreateWithoutSupplierInput> | HistoryCreateWithoutSupplierInput[] | HistoryUncheckedCreateWithoutSupplierInput[]
+    connectOrCreate?: HistoryCreateOrConnectWithoutSupplierInput | HistoryCreateOrConnectWithoutSupplierInput[]
+    createMany?: HistoryCreateManySupplierInputEnvelope
+    connect?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
   }
 
   export type AssetUpdateManyWithoutSupplierNestedInput = {
@@ -6654,6 +8153,20 @@ export namespace Prisma {
     deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
   }
 
+  export type HistoryUpdateManyWithoutSupplierNestedInput = {
+    create?: XOR<HistoryCreateWithoutSupplierInput, HistoryUncheckedCreateWithoutSupplierInput> | HistoryCreateWithoutSupplierInput[] | HistoryUncheckedCreateWithoutSupplierInput[]
+    connectOrCreate?: HistoryCreateOrConnectWithoutSupplierInput | HistoryCreateOrConnectWithoutSupplierInput[]
+    upsert?: HistoryUpsertWithWhereUniqueWithoutSupplierInput | HistoryUpsertWithWhereUniqueWithoutSupplierInput[]
+    createMany?: HistoryCreateManySupplierInputEnvelope
+    set?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    disconnect?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    delete?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    connect?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    update?: HistoryUpdateWithWhereUniqueWithoutSupplierInput | HistoryUpdateWithWhereUniqueWithoutSupplierInput[]
+    updateMany?: HistoryUpdateManyWithWhereWithoutSupplierInput | HistoryUpdateManyWithWhereWithoutSupplierInput[]
+    deleteMany?: HistoryScalarWhereInput | HistoryScalarWhereInput[]
+  }
+
   export type AssetUncheckedUpdateManyWithoutSupplierNestedInput = {
     create?: XOR<AssetCreateWithoutSupplierInput, AssetUncheckedCreateWithoutSupplierInput> | AssetCreateWithoutSupplierInput[] | AssetUncheckedCreateWithoutSupplierInput[]
     connectOrCreate?: AssetCreateOrConnectWithoutSupplierInput | AssetCreateOrConnectWithoutSupplierInput[]
@@ -6666,6 +8179,20 @@ export namespace Prisma {
     update?: AssetUpdateWithWhereUniqueWithoutSupplierInput | AssetUpdateWithWhereUniqueWithoutSupplierInput[]
     updateMany?: AssetUpdateManyWithWhereWithoutSupplierInput | AssetUpdateManyWithWhereWithoutSupplierInput[]
     deleteMany?: AssetScalarWhereInput | AssetScalarWhereInput[]
+  }
+
+  export type HistoryUncheckedUpdateManyWithoutSupplierNestedInput = {
+    create?: XOR<HistoryCreateWithoutSupplierInput, HistoryUncheckedCreateWithoutSupplierInput> | HistoryCreateWithoutSupplierInput[] | HistoryUncheckedCreateWithoutSupplierInput[]
+    connectOrCreate?: HistoryCreateOrConnectWithoutSupplierInput | HistoryCreateOrConnectWithoutSupplierInput[]
+    upsert?: HistoryUpsertWithWhereUniqueWithoutSupplierInput | HistoryUpsertWithWhereUniqueWithoutSupplierInput[]
+    createMany?: HistoryCreateManySupplierInputEnvelope
+    set?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    disconnect?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    delete?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    connect?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    update?: HistoryUpdateWithWhereUniqueWithoutSupplierInput | HistoryUpdateWithWhereUniqueWithoutSupplierInput[]
+    updateMany?: HistoryUpdateManyWithWhereWithoutSupplierInput | HistoryUpdateManyWithWhereWithoutSupplierInput[]
+    deleteMany?: HistoryScalarWhereInput | HistoryScalarWhereInput[]
   }
 
   export type AssetCreateNestedManyWithoutAssetGroupInput = {
@@ -6728,6 +8255,20 @@ export namespace Prisma {
     connect?: AssetGroupWhereUniqueInput
   }
 
+  export type HistoryCreateNestedManyWithoutAssetInput = {
+    create?: XOR<HistoryCreateWithoutAssetInput, HistoryUncheckedCreateWithoutAssetInput> | HistoryCreateWithoutAssetInput[] | HistoryUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: HistoryCreateOrConnectWithoutAssetInput | HistoryCreateOrConnectWithoutAssetInput[]
+    createMany?: HistoryCreateManyAssetInputEnvelope
+    connect?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+  }
+
+  export type HistoryUncheckedCreateNestedManyWithoutAssetInput = {
+    create?: XOR<HistoryCreateWithoutAssetInput, HistoryUncheckedCreateWithoutAssetInput> | HistoryCreateWithoutAssetInput[] | HistoryUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: HistoryCreateOrConnectWithoutAssetInput | HistoryCreateOrConnectWithoutAssetInput[]
+    createMany?: HistoryCreateManyAssetInputEnvelope
+    connect?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -6762,6 +8303,66 @@ export namespace Prisma {
     upsert?: AssetGroupUpsertWithoutAssetsInput
     connect?: AssetGroupWhereUniqueInput
     update?: XOR<XOR<AssetGroupUpdateToOneWithWhereWithoutAssetsInput, AssetGroupUpdateWithoutAssetsInput>, AssetGroupUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type HistoryUpdateManyWithoutAssetNestedInput = {
+    create?: XOR<HistoryCreateWithoutAssetInput, HistoryUncheckedCreateWithoutAssetInput> | HistoryCreateWithoutAssetInput[] | HistoryUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: HistoryCreateOrConnectWithoutAssetInput | HistoryCreateOrConnectWithoutAssetInput[]
+    upsert?: HistoryUpsertWithWhereUniqueWithoutAssetInput | HistoryUpsertWithWhereUniqueWithoutAssetInput[]
+    createMany?: HistoryCreateManyAssetInputEnvelope
+    set?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    disconnect?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    delete?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    connect?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    update?: HistoryUpdateWithWhereUniqueWithoutAssetInput | HistoryUpdateWithWhereUniqueWithoutAssetInput[]
+    updateMany?: HistoryUpdateManyWithWhereWithoutAssetInput | HistoryUpdateManyWithWhereWithoutAssetInput[]
+    deleteMany?: HistoryScalarWhereInput | HistoryScalarWhereInput[]
+  }
+
+  export type HistoryUncheckedUpdateManyWithoutAssetNestedInput = {
+    create?: XOR<HistoryCreateWithoutAssetInput, HistoryUncheckedCreateWithoutAssetInput> | HistoryCreateWithoutAssetInput[] | HistoryUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: HistoryCreateOrConnectWithoutAssetInput | HistoryCreateOrConnectWithoutAssetInput[]
+    upsert?: HistoryUpsertWithWhereUniqueWithoutAssetInput | HistoryUpsertWithWhereUniqueWithoutAssetInput[]
+    createMany?: HistoryCreateManyAssetInputEnvelope
+    set?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    disconnect?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    delete?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    connect?: HistoryWhereUniqueInput | HistoryWhereUniqueInput[]
+    update?: HistoryUpdateWithWhereUniqueWithoutAssetInput | HistoryUpdateWithWhereUniqueWithoutAssetInput[]
+    updateMany?: HistoryUpdateManyWithWhereWithoutAssetInput | HistoryUpdateManyWithWhereWithoutAssetInput[]
+    deleteMany?: HistoryScalarWhereInput | HistoryScalarWhereInput[]
+  }
+
+  export type AssetCreateNestedOneWithoutHistoryInput = {
+    create?: XOR<AssetCreateWithoutHistoryInput, AssetUncheckedCreateWithoutHistoryInput>
+    connectOrCreate?: AssetCreateOrConnectWithoutHistoryInput
+    connect?: AssetWhereUniqueInput
+  }
+
+  export type SupplierCreateNestedOneWithoutHistoryInput = {
+    create?: XOR<SupplierCreateWithoutHistoryInput, SupplierUncheckedCreateWithoutHistoryInput>
+    connectOrCreate?: SupplierCreateOrConnectWithoutHistoryInput
+    connect?: SupplierWhereUniqueInput
+  }
+
+  export type EnumMaintenanceTypeFieldUpdateOperationsInput = {
+    set?: $Enums.MaintenanceType
+  }
+
+  export type AssetUpdateOneRequiredWithoutHistoryNestedInput = {
+    create?: XOR<AssetCreateWithoutHistoryInput, AssetUncheckedCreateWithoutHistoryInput>
+    connectOrCreate?: AssetCreateOrConnectWithoutHistoryInput
+    upsert?: AssetUpsertWithoutHistoryInput
+    connect?: AssetWhereUniqueInput
+    update?: XOR<XOR<AssetUpdateToOneWithWhereWithoutHistoryInput, AssetUpdateWithoutHistoryInput>, AssetUncheckedUpdateWithoutHistoryInput>
+  }
+
+  export type SupplierUpdateOneRequiredWithoutHistoryNestedInput = {
+    create?: XOR<SupplierCreateWithoutHistoryInput, SupplierUncheckedCreateWithoutHistoryInput>
+    connectOrCreate?: SupplierCreateOrConnectWithoutHistoryInput
+    upsert?: SupplierUpsertWithoutHistoryInput
+    connect?: SupplierWhereUniqueInput
+    update?: XOR<XOR<SupplierUpdateToOneWithWhereWithoutHistoryInput, SupplierUpdateWithoutHistoryInput>, SupplierUncheckedUpdateWithoutHistoryInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -6871,6 +8472,23 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedEnumMaintenanceTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.MaintenanceType | EnumMaintenanceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MaintenanceType[] | ListEnumMaintenanceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MaintenanceType[] | ListEnumMaintenanceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMaintenanceTypeFilter<$PrismaModel> | $Enums.MaintenanceType
+  }
+
+  export type NestedEnumMaintenanceTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MaintenanceType | EnumMaintenanceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.MaintenanceType[] | ListEnumMaintenanceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MaintenanceType[] | ListEnumMaintenanceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumMaintenanceTypeWithAggregatesFilter<$PrismaModel> | $Enums.MaintenanceType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMaintenanceTypeFilter<$PrismaModel>
+    _max?: NestedEnumMaintenanceTypeFilter<$PrismaModel>
+  }
+
   export type AssetCreateWithoutResponsibleUserInput = {
     id?: string
     name: string
@@ -6883,6 +8501,7 @@ export namespace Prisma {
     updated_at?: Date | string
     supplier: SupplierCreateNestedOneWithoutAssetsInput
     assetGroup: AssetGroupCreateNestedOneWithoutAssetsInput
+    history?: HistoryCreateNestedManyWithoutAssetInput
   }
 
   export type AssetUncheckedCreateWithoutResponsibleUserInput = {
@@ -6897,6 +8516,7 @@ export namespace Prisma {
     updated_at?: Date | string
     supplierId: string
     assetGroupId: string
+    history?: HistoryUncheckedCreateNestedManyWithoutAssetInput
   }
 
   export type AssetCreateOrConnectWithoutResponsibleUserInput = {
@@ -6955,6 +8575,7 @@ export namespace Prisma {
     updated_at?: Date | string
     responsibleUser: UserCreateNestedOneWithoutAssetsInput
     assetGroup: AssetGroupCreateNestedOneWithoutAssetsInput
+    history?: HistoryCreateNestedManyWithoutAssetInput
   }
 
   export type AssetUncheckedCreateWithoutSupplierInput = {
@@ -6969,6 +8590,7 @@ export namespace Prisma {
     updated_at?: Date | string
     responsibleUserId: string
     assetGroupId: string
+    history?: HistoryUncheckedCreateNestedManyWithoutAssetInput
   }
 
   export type AssetCreateOrConnectWithoutSupplierInput = {
@@ -6978,6 +8600,30 @@ export namespace Prisma {
 
   export type AssetCreateManySupplierInputEnvelope = {
     data: AssetCreateManySupplierInput | AssetCreateManySupplierInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type HistoryCreateWithoutSupplierInput = {
+    id?: string
+    type: $Enums.MaintenanceType
+    date: Date | string
+    asset: AssetCreateNestedOneWithoutHistoryInput
+  }
+
+  export type HistoryUncheckedCreateWithoutSupplierInput = {
+    id?: string
+    type: $Enums.MaintenanceType
+    assetId: string
+    date: Date | string
+  }
+
+  export type HistoryCreateOrConnectWithoutSupplierInput = {
+    where: HistoryWhereUniqueInput
+    create: XOR<HistoryCreateWithoutSupplierInput, HistoryUncheckedCreateWithoutSupplierInput>
+  }
+
+  export type HistoryCreateManySupplierInputEnvelope = {
+    data: HistoryCreateManySupplierInput | HistoryCreateManySupplierInput[]
     skipDuplicates?: boolean
   }
 
@@ -6997,6 +8643,33 @@ export namespace Prisma {
     data: XOR<AssetUpdateManyMutationInput, AssetUncheckedUpdateManyWithoutSupplierInput>
   }
 
+  export type HistoryUpsertWithWhereUniqueWithoutSupplierInput = {
+    where: HistoryWhereUniqueInput
+    update: XOR<HistoryUpdateWithoutSupplierInput, HistoryUncheckedUpdateWithoutSupplierInput>
+    create: XOR<HistoryCreateWithoutSupplierInput, HistoryUncheckedCreateWithoutSupplierInput>
+  }
+
+  export type HistoryUpdateWithWhereUniqueWithoutSupplierInput = {
+    where: HistoryWhereUniqueInput
+    data: XOR<HistoryUpdateWithoutSupplierInput, HistoryUncheckedUpdateWithoutSupplierInput>
+  }
+
+  export type HistoryUpdateManyWithWhereWithoutSupplierInput = {
+    where: HistoryScalarWhereInput
+    data: XOR<HistoryUpdateManyMutationInput, HistoryUncheckedUpdateManyWithoutSupplierInput>
+  }
+
+  export type HistoryScalarWhereInput = {
+    AND?: HistoryScalarWhereInput | HistoryScalarWhereInput[]
+    OR?: HistoryScalarWhereInput[]
+    NOT?: HistoryScalarWhereInput | HistoryScalarWhereInput[]
+    id?: StringFilter<"History"> | string
+    type?: EnumMaintenanceTypeFilter<"History"> | $Enums.MaintenanceType
+    assetId?: StringFilter<"History"> | string
+    supplierId?: StringFilter<"History"> | string
+    date?: DateTimeFilter<"History"> | Date | string
+  }
+
   export type AssetCreateWithoutAssetGroupInput = {
     id?: string
     name: string
@@ -7009,6 +8682,7 @@ export namespace Prisma {
     updated_at?: Date | string
     responsibleUser: UserCreateNestedOneWithoutAssetsInput
     supplier: SupplierCreateNestedOneWithoutAssetsInput
+    history?: HistoryCreateNestedManyWithoutAssetInput
   }
 
   export type AssetUncheckedCreateWithoutAssetGroupInput = {
@@ -7023,6 +8697,7 @@ export namespace Prisma {
     updated_at?: Date | string
     responsibleUserId: string
     supplierId: string
+    history?: HistoryUncheckedCreateNestedManyWithoutAssetInput
   }
 
   export type AssetCreateOrConnectWithoutAssetGroupInput = {
@@ -7079,6 +8754,7 @@ export namespace Prisma {
     name: string
     created_at?: Date | string
     updated_at?: Date | string
+    history?: HistoryCreateNestedManyWithoutSupplierInput
   }
 
   export type SupplierUncheckedCreateWithoutAssetsInput = {
@@ -7086,6 +8762,7 @@ export namespace Prisma {
     name: string
     created_at?: Date | string
     updated_at?: Date | string
+    history?: HistoryUncheckedCreateNestedManyWithoutSupplierInput
   }
 
   export type SupplierCreateOrConnectWithoutAssetsInput = {
@@ -7110,6 +8787,30 @@ export namespace Prisma {
   export type AssetGroupCreateOrConnectWithoutAssetsInput = {
     where: AssetGroupWhereUniqueInput
     create: XOR<AssetGroupCreateWithoutAssetsInput, AssetGroupUncheckedCreateWithoutAssetsInput>
+  }
+
+  export type HistoryCreateWithoutAssetInput = {
+    id?: string
+    type: $Enums.MaintenanceType
+    date: Date | string
+    supplier: SupplierCreateNestedOneWithoutHistoryInput
+  }
+
+  export type HistoryUncheckedCreateWithoutAssetInput = {
+    id?: string
+    type: $Enums.MaintenanceType
+    supplierId: string
+    date: Date | string
+  }
+
+  export type HistoryCreateOrConnectWithoutAssetInput = {
+    where: HistoryWhereUniqueInput
+    create: XOR<HistoryCreateWithoutAssetInput, HistoryUncheckedCreateWithoutAssetInput>
+  }
+
+  export type HistoryCreateManyAssetInputEnvelope = {
+    data: HistoryCreateManyAssetInput | HistoryCreateManyAssetInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutAssetsInput = {
@@ -7157,6 +8858,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    history?: HistoryUpdateManyWithoutSupplierNestedInput
   }
 
   export type SupplierUncheckedUpdateWithoutAssetsInput = {
@@ -7164,6 +8866,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    history?: HistoryUncheckedUpdateManyWithoutSupplierNestedInput
   }
 
   export type AssetGroupUpsertWithoutAssetsInput = {
@@ -7189,6 +8892,146 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoryUpsertWithWhereUniqueWithoutAssetInput = {
+    where: HistoryWhereUniqueInput
+    update: XOR<HistoryUpdateWithoutAssetInput, HistoryUncheckedUpdateWithoutAssetInput>
+    create: XOR<HistoryCreateWithoutAssetInput, HistoryUncheckedCreateWithoutAssetInput>
+  }
+
+  export type HistoryUpdateWithWhereUniqueWithoutAssetInput = {
+    where: HistoryWhereUniqueInput
+    data: XOR<HistoryUpdateWithoutAssetInput, HistoryUncheckedUpdateWithoutAssetInput>
+  }
+
+  export type HistoryUpdateManyWithWhereWithoutAssetInput = {
+    where: HistoryScalarWhereInput
+    data: XOR<HistoryUpdateManyMutationInput, HistoryUncheckedUpdateManyWithoutAssetInput>
+  }
+
+  export type AssetCreateWithoutHistoryInput = {
+    id?: string
+    name: string
+    frequency: number
+    lastService: Date | string
+    nextService: Date | string
+    isRetired: boolean
+    retiredOn: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    responsibleUser: UserCreateNestedOneWithoutAssetsInput
+    supplier: SupplierCreateNestedOneWithoutAssetsInput
+    assetGroup: AssetGroupCreateNestedOneWithoutAssetsInput
+  }
+
+  export type AssetUncheckedCreateWithoutHistoryInput = {
+    id?: string
+    name: string
+    frequency: number
+    lastService: Date | string
+    nextService: Date | string
+    isRetired: boolean
+    retiredOn: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    responsibleUserId: string
+    supplierId: string
+    assetGroupId: string
+  }
+
+  export type AssetCreateOrConnectWithoutHistoryInput = {
+    where: AssetWhereUniqueInput
+    create: XOR<AssetCreateWithoutHistoryInput, AssetUncheckedCreateWithoutHistoryInput>
+  }
+
+  export type SupplierCreateWithoutHistoryInput = {
+    id?: string
+    name: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    assets?: AssetCreateNestedManyWithoutSupplierInput
+  }
+
+  export type SupplierUncheckedCreateWithoutHistoryInput = {
+    id?: string
+    name: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    assets?: AssetUncheckedCreateNestedManyWithoutSupplierInput
+  }
+
+  export type SupplierCreateOrConnectWithoutHistoryInput = {
+    where: SupplierWhereUniqueInput
+    create: XOR<SupplierCreateWithoutHistoryInput, SupplierUncheckedCreateWithoutHistoryInput>
+  }
+
+  export type AssetUpsertWithoutHistoryInput = {
+    update: XOR<AssetUpdateWithoutHistoryInput, AssetUncheckedUpdateWithoutHistoryInput>
+    create: XOR<AssetCreateWithoutHistoryInput, AssetUncheckedCreateWithoutHistoryInput>
+    where?: AssetWhereInput
+  }
+
+  export type AssetUpdateToOneWithWhereWithoutHistoryInput = {
+    where?: AssetWhereInput
+    data: XOR<AssetUpdateWithoutHistoryInput, AssetUncheckedUpdateWithoutHistoryInput>
+  }
+
+  export type AssetUpdateWithoutHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    frequency?: IntFieldUpdateOperationsInput | number
+    lastService?: DateTimeFieldUpdateOperationsInput | Date | string
+    nextService?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRetired?: BoolFieldUpdateOperationsInput | boolean
+    retiredOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    responsibleUser?: UserUpdateOneRequiredWithoutAssetsNestedInput
+    supplier?: SupplierUpdateOneRequiredWithoutAssetsNestedInput
+    assetGroup?: AssetGroupUpdateOneRequiredWithoutAssetsNestedInput
+  }
+
+  export type AssetUncheckedUpdateWithoutHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    frequency?: IntFieldUpdateOperationsInput | number
+    lastService?: DateTimeFieldUpdateOperationsInput | Date | string
+    nextService?: DateTimeFieldUpdateOperationsInput | Date | string
+    isRetired?: BoolFieldUpdateOperationsInput | boolean
+    retiredOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    responsibleUserId?: StringFieldUpdateOperationsInput | string
+    supplierId?: StringFieldUpdateOperationsInput | string
+    assetGroupId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SupplierUpsertWithoutHistoryInput = {
+    update: XOR<SupplierUpdateWithoutHistoryInput, SupplierUncheckedUpdateWithoutHistoryInput>
+    create: XOR<SupplierCreateWithoutHistoryInput, SupplierUncheckedCreateWithoutHistoryInput>
+    where?: SupplierWhereInput
+  }
+
+  export type SupplierUpdateToOneWithWhereWithoutHistoryInput = {
+    where?: SupplierWhereInput
+    data: XOR<SupplierUpdateWithoutHistoryInput, SupplierUncheckedUpdateWithoutHistoryInput>
+  }
+
+  export type SupplierUpdateWithoutHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assets?: AssetUpdateManyWithoutSupplierNestedInput
+  }
+
+  export type SupplierUncheckedUpdateWithoutHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assets?: AssetUncheckedUpdateManyWithoutSupplierNestedInput
   }
 
   export type AssetCreateManyResponsibleUserInput = {
@@ -7217,6 +9060,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     supplier?: SupplierUpdateOneRequiredWithoutAssetsNestedInput
     assetGroup?: AssetGroupUpdateOneRequiredWithoutAssetsNestedInput
+    history?: HistoryUpdateManyWithoutAssetNestedInput
   }
 
   export type AssetUncheckedUpdateWithoutResponsibleUserInput = {
@@ -7231,6 +9075,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     supplierId?: StringFieldUpdateOperationsInput | string
     assetGroupId?: StringFieldUpdateOperationsInput | string
+    history?: HistoryUncheckedUpdateManyWithoutAssetNestedInput
   }
 
   export type AssetUncheckedUpdateManyWithoutResponsibleUserInput = {
@@ -7261,6 +9106,13 @@ export namespace Prisma {
     assetGroupId: string
   }
 
+  export type HistoryCreateManySupplierInput = {
+    id?: string
+    type: $Enums.MaintenanceType
+    assetId: string
+    date: Date | string
+  }
+
   export type AssetUpdateWithoutSupplierInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -7273,6 +9125,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     responsibleUser?: UserUpdateOneRequiredWithoutAssetsNestedInput
     assetGroup?: AssetGroupUpdateOneRequiredWithoutAssetsNestedInput
+    history?: HistoryUpdateManyWithoutAssetNestedInput
   }
 
   export type AssetUncheckedUpdateWithoutSupplierInput = {
@@ -7287,6 +9140,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     responsibleUserId?: StringFieldUpdateOperationsInput | string
     assetGroupId?: StringFieldUpdateOperationsInput | string
+    history?: HistoryUncheckedUpdateManyWithoutAssetNestedInput
   }
 
   export type AssetUncheckedUpdateManyWithoutSupplierInput = {
@@ -7301,6 +9155,27 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     responsibleUserId?: StringFieldUpdateOperationsInput | string
     assetGroupId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type HistoryUpdateWithoutSupplierInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMaintenanceTypeFieldUpdateOperationsInput | $Enums.MaintenanceType
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    asset?: AssetUpdateOneRequiredWithoutHistoryNestedInput
+  }
+
+  export type HistoryUncheckedUpdateWithoutSupplierInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMaintenanceTypeFieldUpdateOperationsInput | $Enums.MaintenanceType
+    assetId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoryUncheckedUpdateManyWithoutSupplierInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMaintenanceTypeFieldUpdateOperationsInput | $Enums.MaintenanceType
+    assetId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AssetCreateManyAssetGroupInput = {
@@ -7329,6 +9204,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     responsibleUser?: UserUpdateOneRequiredWithoutAssetsNestedInput
     supplier?: SupplierUpdateOneRequiredWithoutAssetsNestedInput
+    history?: HistoryUpdateManyWithoutAssetNestedInput
   }
 
   export type AssetUncheckedUpdateWithoutAssetGroupInput = {
@@ -7343,6 +9219,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     responsibleUserId?: StringFieldUpdateOperationsInput | string
     supplierId?: StringFieldUpdateOperationsInput | string
+    history?: HistoryUncheckedUpdateManyWithoutAssetNestedInput
   }
 
   export type AssetUncheckedUpdateManyWithoutAssetGroupInput = {
@@ -7357,6 +9234,34 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     responsibleUserId?: StringFieldUpdateOperationsInput | string
     supplierId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type HistoryCreateManyAssetInput = {
+    id?: string
+    type: $Enums.MaintenanceType
+    supplierId: string
+    date: Date | string
+  }
+
+  export type HistoryUpdateWithoutAssetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMaintenanceTypeFieldUpdateOperationsInput | $Enums.MaintenanceType
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    supplier?: SupplierUpdateOneRequiredWithoutHistoryNestedInput
+  }
+
+  export type HistoryUncheckedUpdateWithoutAssetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMaintenanceTypeFieldUpdateOperationsInput | $Enums.MaintenanceType
+    supplierId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoryUncheckedUpdateManyWithoutAssetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumMaintenanceTypeFieldUpdateOperationsInput | $Enums.MaintenanceType
+    supplierId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -79,4 +79,6 @@ model History {
   supplier   Supplier        @relation(fields: [supplierId], references: [id])
   supplierId String
   date       DateTime        @db.Date
+
+  @@map("history")
 }
