@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../../../prisma-client";
+import { addDays, startOfTomorrow, endOfDay, startOfDay } from 'date-fns';
 
 export async function getAsset(req: Request, res: Response, next: NextFunction) {
     try {
@@ -7,6 +8,60 @@ export async function getAsset(req: Request, res: Response, next: NextFunction) 
             where: { id: req.params.id as string }
         });
         return res.status(200).json(asset);
+    } catch (error) {
+        next(error)
+    }
+}
+
+export async function getUpcomingAssets(req: Request, res: Response, next: NextFunction) {
+    try {
+        const today = startOfDay(new Date());             // Today 
+        const endDay = endOfDay(addDays(new Date(), 14)); // 2 weeks in advance
+
+        const assets = await prisma.asset.findMany({
+            where: {
+                isRetired: false,
+                nextService: {
+                    gte: today,
+                    lte: endDay
+                },
+            },
+            orderBy: {
+                nextService: 'asc'
+            },
+            include: {
+                assetGroup: { select: { name: true } },
+                responsibleUser: { select: { name: true } },
+                supplier: { select: { name: true } }
+            }
+        });
+        return res.status(200).json(assets);
+    } catch (error) {
+        next(error)
+    }
+}
+
+export async function getOverdueAssets(req: Request, res: Response, next: NextFunction) {
+    try {
+        const today = startOfDay(new Date());
+
+        const assets = await prisma.asset.findMany({
+            where: {
+                isRetired: false,
+                nextService: {
+                    lt: today
+                },
+            },
+            orderBy: {
+                nextService: 'asc'
+            },
+            include: {
+                assetGroup: { select: { name: true } },
+                responsibleUser: { select: { name: true } },
+                supplier: { select: { name: true } }
+            }
+        });
+        return res.status(200).json(assets);
     } catch (error) {
         next(error)
     }
