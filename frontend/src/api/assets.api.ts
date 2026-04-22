@@ -1,4 +1,4 @@
-import type { AssetType, CreateAssetType } from '../types/types'
+import type { AssetFilters, CreateAssetType } from '../types/types'
 import { axiosInstance } from '../utils'
 
 export async function getAsset(id: string) {
@@ -6,8 +6,10 @@ export async function getAsset(id: string) {
     return res.data
 }
 
-export async function getAssets() {
-    const res = await axiosInstance.get('/assets')
+export async function getAssets(filters: AssetFilters = {}) {
+    const res = await axiosInstance.get('/assets', {
+        params: filters
+    })
     return res.data
 }
 

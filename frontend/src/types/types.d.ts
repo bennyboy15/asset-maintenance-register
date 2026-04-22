@@ -32,6 +32,12 @@ export type CreateAssetType = {
     assetGroupId: string;
 }
 
+export interface AssetFilters {
+    userId?: string;
+    groupId?: string;
+    isRetired?: boolean;
+}
+
 export type SupplierType = {
     id: string;
     name: string;

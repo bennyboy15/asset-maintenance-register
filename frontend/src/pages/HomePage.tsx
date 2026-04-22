@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Wrench, AlertTriangle, Package, History as HistoryIcon, Plus, ArrowRight } from "lucide-react";
+import { Wrench, AlertTriangle, Package, History as HistoryIcon, ArrowRight } from "lucide-react";
 import type { AssetType } from "../types/types";
 import { useAssets } from "../hooks/assets.hooks";
 import { Button } from "../components/ui/button";
@@ -15,7 +15,7 @@ export default function HomePage() {
 
     return (
 
-        <div className="p-8 max-w-7xl mx-auto space-y-8">
+        <div className="max-w-7xl mx-auto space-y-8">
 
             <div className="flex justify-between items-center">
                 <div>
@@ -62,7 +62,7 @@ export default function HomePage() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-2xl font-bold">{retiredAssets}</div>
-                                    <p className="text-xs text-muted-foreground text-slate-500 font-medium tracking-tight uppercase">History only</p>
+                                    <p className="text-xs text-slate-500 font-medium tracking-tight uppercase">History only</p>
                                 </CardContent>
                             </Card>
                         </div>

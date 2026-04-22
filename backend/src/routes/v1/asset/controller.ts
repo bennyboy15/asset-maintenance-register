@@ -69,7 +69,30 @@ export async function getOverdueAssets(req: Request, res: Response, next: NextFu
 
 export async function getAssets(req: Request, res: Response, next: NextFunction) {
     try {
-        const assets = await prisma.asset.findMany({});
+        const userId = req.query.userId as string;
+        let assets = [];
+        if (userId) {
+            assets = await prisma.asset.findMany({
+                where: { responsibleUserId: userId },
+                include: {
+                    assetGroup: true,
+                    supplier: true
+                },
+                orderBy: {
+                    created_at: 'desc'
+                }
+            });
+        } else {
+            assets = await prisma.asset.findMany({
+                include: {
+                    assetGroup: true,
+                    supplier: true
+                },
+                orderBy: {
+                    created_at: 'desc'
+                }
+            });
+        }
         return res.status(200).json(assets);
     } catch (error) {
         next(error)

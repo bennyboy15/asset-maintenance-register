@@ -4,16 +4,13 @@ import { useAssets } from "../../hooks/assets.hooks";
 import type { AssetType } from "../../types/types";
 import { format } from "date-fns";
 import { getStatus } from "../../utils";
-import { Skeleton } from "../../components/ui/skeleton";
-import skeleton from "../../components/skeleton";
 import SkeletonRefine from "../../components/skeleton";
 
 function AssetsPage() {
     const [viewMine, setViewMine] = useState(false);
 
     // Passing the filter to your hook (assuming your hook accepts query params)
-    const { data: assets, isLoading, error } = useAssets({
-        params: { mine: viewMine },
+    const { data: assets, isLoading, error } = useAssets({}, {
         staleTime: 1000 * 60 * 10,
     });
 

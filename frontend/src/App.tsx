@@ -26,6 +26,7 @@ function App() {
 
           <Route path="/my-list" element={<MyListPage />} />
           <Route path="/history" element={<HistoryPage />} />
+          <Route path="/suppliers" element={<SuppliersPage />} />
         </Routes>
       </div>
     </>

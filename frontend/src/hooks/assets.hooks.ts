@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { createAsset, deleteAsset, getAsset, getAssets, updateAsset } from '../api/assets.api'
-import type { AssetType, CreateAssetType } from '../types/types'
+import type { AssetFilters, AssetType, CreateAssetType } from '../types/types'
 
 export function useAsset(id: string, options = {}) {
     return useQuery({
@@ -12,10 +12,10 @@ export function useAsset(id: string, options = {}) {
     })
 }
 
-export function useAssets(options = {}) {
+export function useAssets(filters: AssetFilters, options = {}) {
     return useQuery({
-        queryKey: ['assets'],
-        queryFn: getAssets,
+        queryKey: ['assets', filters],
+        queryFn: () => getAssets(filters),
         ...options
     })
 }
