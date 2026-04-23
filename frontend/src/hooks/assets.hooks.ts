@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import { createAsset, deleteAsset, getAsset, getAssets, updateAsset } from '../api/assets.api'
+import { createAsset, deleteAsset, getAsset, getAssets, getOverdueCount, updateAsset } from '../api/assets.api'
 import type { AssetFilters, AssetType, CreateAssetType } from '../types/types'
 
 export function useAsset(id: string, options = {}) {
@@ -75,5 +75,13 @@ export function useDeleteAsset(id: string) {
         onError: () => {
             toast.error('Failed to delete asset')
         },
+    })
+}
+
+export function useGetOverdueCount(options = {}) {
+    return useQuery({
+        queryKey: ["overdueCount"],
+        queryFn: getOverdueCount,
+        ...options
     })
 }

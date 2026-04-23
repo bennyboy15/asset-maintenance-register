@@ -67,6 +67,24 @@ export async function getOverdueAssets(req: Request, res: Response, next: NextFu
     }
 }
 
+export async function getOverdueAssetsCount(req: Request, res: Response, next: NextFunction) {
+    try {
+        const today = startOfDay(new Date());
+
+        const count = await prisma.asset.count({
+            where: {
+                isRetired: false,
+                nextService: {
+                    lt: today
+                },
+            },
+        });
+        return res.status(200).json(count);
+    } catch (error) {
+        next(error)
+    }
+}
+
 export async function getAssets(req: Request, res: Response, next: NextFunction) {
     try {
         const userId = req.query.userId as string;

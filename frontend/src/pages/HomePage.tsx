@@ -1,16 +1,17 @@
 import { Link } from "react-router-dom";
 import { Wrench, AlertTriangle, Package, History as HistoryIcon, ArrowRight } from "lucide-react";
 import type { AssetType } from "../types/types";
-import { useAssets } from "../hooks/assets.hooks";
+import { useAssets, useGetOverdueCount } from "../hooks/assets.hooks";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import SkeletonRefine from "../components/skeleton";
 
 export default function HomePage() {
-    const { data: assets, isLoading } = useAssets();
+    const { data: assets, isLoading } = useAssets({});
 
     const totalAssets = assets?.length || 0;
-    const overdueAssets = assets?.filter((a: AssetType) => new Date(a.nextService) < new Date() && !a.isRetired).length || 0;
+    const { data: overdueAssetsCount } = useGetOverdueCount();
+
     const retiredAssets = assets?.filter((a: AssetType) => a.isRetired).length || 0;
 
     return (
@@ -50,7 +51,7 @@ export default function HomePage() {
                                     <AlertTriangle className="h-4 w-4 text-red-600" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold text-red-700">{overdueAssets}</div>
+                                    <div className="text-2xl font-bold text-red-700">{overdueAssetsCount}</div>
                                     <p className="text-xs text-red-600/80 italic">Immediate attention required</p>
                                 </CardContent>
                             </Card>

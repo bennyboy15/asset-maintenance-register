@@ -27,3 +27,8 @@ export async function deleteAsset(id: string) {
     const res = await axiosInstance.post('/assets', id)
     return res.data
 }
+
+export async function getOverdueCount() {
+    const res = await axiosInstance.get('/assets/stats/overdue');
+    return res.data;
+}
