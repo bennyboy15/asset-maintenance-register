@@ -85,13 +85,35 @@ export async function getOverdueAssetsCount(req: Request, res: Response, next: N
     }
 }
 
+export async function getUpcomingAssetsCount(req: Request, res: Response, next: NextFunction) {
+    try {
+        const today = startOfDay(new Date());
+        const endDay = endOfDay(addDays(today, 14));
+        const count = await prisma.asset.count({
+            where: {
+                isRetired: false,
+                nextService: {
+                    gte: today,
+                    lte: endDay
+                },
+            },
+        });
+        return res.status(200).json(count);
+    } catch (error) {
+        next(error)
+    }
+}
+
 export async function getAssets(req: Request, res: Response, next: NextFunction) {
     try {
         const userId = req.query.userId as string;
         let assets = [];
         if (userId) {
             assets = await prisma.asset.findMany({
-                where: { responsibleUserId: userId },
+                where: {
+                    responsibleUserId: userId,
+                    isRetired: false
+                },
                 include: {
                     assetGroup: true,
                     supplier: true
@@ -102,6 +124,7 @@ export async function getAssets(req: Request, res: Response, next: NextFunction)
             });
         } else {
             assets = await prisma.asset.findMany({
+                where: { isRetired: false },
                 include: {
                     assetGroup: true,
                     supplier: true
