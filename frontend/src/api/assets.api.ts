@@ -24,11 +24,16 @@ export async function updateAsset(id: string, data: Partial<CreateAssetType>) {
 }
 
 export async function deleteAsset(id: string) {
-    const res = await axiosInstance.post('/assets', id)
+    const res = await axiosInstance.delete('/assets', id)
     return res.data
 }
 
 export async function getOverdueCount() {
     const res = await axiosInstance.get('/assets/stats/overdue');
+    return res.data;
+}
+
+export async function getUpcomingCount() {
+    const res = await axiosInstance.get('/assets/stats/upcoming');
     return res.data;
 }

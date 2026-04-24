@@ -59,3 +59,18 @@ export type UserType = {
     created_at: date;
     updated_at: date;
 }
+
+export type HistoryType = {
+    id: string;
+    type: string;
+    assetId: string;
+    supplierId: string;
+    date: date
+}
+
+export type CreateHistoryType = {
+    type: string;
+    assetId: string;
+    supplierId: string;
+    date: date
+}

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createAsset, deleteAsset, getAsset, getAssets, getOverdueAssets, getOverdueAssetsCount, getUpcomingAssets, updateAsset } from "./controller";
+import { createAsset, deleteAsset, getAsset, getAssets, getOverdueAssets, getOverdueAssetsCount, getUpcomingAssets, getUpcomingAssetsCount, updateAsset } from "./controller";
 import validateRequest from "../../../middleware/validate-request";
 import { createAssetSchema, updateAssetSchema } from "../../../data/request-schema";
 
@@ -8,6 +8,7 @@ const asset = Router();
 asset.get("/upcoming", getUpcomingAssets);
 asset.get("/overdue", getOverdueAssets);
 asset.get("/stats/overdue", getOverdueAssetsCount);
+asset.get("/stats/upcoming", getUpcomingAssetsCount);
 asset.get("/", getAssets);
 asset.get("/:id", getAsset);
 
